@@ -38,8 +38,23 @@
 - Các vấn đề về bảo mật:
 
 ### Mã Nguồn
-- Cấu trúc:
-- Quản lí mã nguồn:
+#### Cấu trúc:
+- **database_template:** Chứ các template SQL (không dữ liệu)
+- **private:** Chứ các module php bên ngoài nội dung render ra web.
+    - **database:** Kết nối với cơ sở dữ liệu.
+    - **service:** Các dịch vụ (Đọc file .env, file config, ký jwt, call api bên thứ 3,... ).
+
+- **src:** Nội dung render ra web mà user có thể call ngoài trình duyệt.
+    - **callback:** Xử lí token và redirect trang gốc sau khi xác thực người dùng.
+    - **google-callback:** Tương tự nhưng cho google
+    - **username-callback:** Tương tự
+
+#### Quản lí mã nguồn:
+- Sử dụng github để quản lí mã nguồn.
+- Lưu dữ liệu nhạy cảm trong file .env và dữ liệu mẫu trong .template.env và đảm bảo không bị rò rỉ dữ liệu ra ngoài.
+- Dữ liệu trong file config đảm bảo chặt chẽ và có thể lấy từ mọi module trong chương trình.
+- Sử dụng CI/CD để tự động kiểm tra mã nguồn và triển khai lên môi trường hoặc khi có sự thay đổi.
+- Đảm bảo tài liệu minh bạch, rõ ràng và dễ hiểu.
 
 ### Các Thư Viện Phụ Thuộc
 - Các thư viện được quản lí bởi **composer** - một công cụ quản lý phụ thuộc (dependency manager) cho PHP.
