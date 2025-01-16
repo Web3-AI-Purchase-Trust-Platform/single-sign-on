@@ -2,7 +2,7 @@
     require '../../private/service/configLoader.php';
 
     $google_oath2 = jsonLoader::getConfig('google-oath2');
-    $google_oath_callback = "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&client_id=". $google_oath2['client-id'] ."&redirect_uri=". $google_oath2['call-back-url'] ."&state=xyz123";
+    $google_oath_callback = "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code&client_id=". $google_oath2['client-id'] ."&redirect_uri=". $google_oath2['call-back-url'] ."&state=xyz123";
 ?>
 
 <!DOCTYPE html>
@@ -73,7 +73,7 @@
                 min-width: 300px;
             "
             method="post"
-            action="/login/auth.php"
+            action="/login/username-callback"
         >
             <label for="exampleFormControlInput1" class="form-label"><b>Tài khoản</b></label>
             <input autocomplete="off" required  name="username" type="text" class="form-control" placeholder="------">

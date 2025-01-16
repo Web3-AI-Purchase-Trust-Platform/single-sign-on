@@ -18,7 +18,7 @@ class jsonLoader {
 }
 
 try {
-    jsonLoader::loadJson('../../resources/config.json');  
+    jsonLoader::loadJson(__DIR__ . '/config.json');  
 } catch (Exception $e) {
     echo "Lỗi: " . $e->getMessage();
 }

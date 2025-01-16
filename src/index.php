@@ -1,5 +1,5 @@
 <?php
-    $redirect = $_GET['redirect'];
+    // $redirect = $_GET['redirect'];
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +11,6 @@
 </head>
 <body>
     <h1>HI</h1>
-    <p> <?php echo $redirect ?> </p>
+    <!-- <p> <?php echo $redirect ?> </p> -->
 </body>
 </html>

@@ -1,13 +1,14 @@
-# Cách Chạy Ứng Dụng
+# Cách Chạy Ứng Dụng & Cấu Hình 
 
 ### Phiên Bản
 - php version: 8.2.26
 - composer version: 2.5.5
 
-### Cấu Hình (Trong File **resources**)
+### Cấu Hình (Trong File **private**)
 #### Các thông số trong .template.env
-- **client_id**: client_id trong google oath2
+- **client_secret**: client_secret trong google oath2
 - **database_host và database_port**: host và port của hệ quản trị cơ sở dữ liệu
+- Tương tự với **database_user**, **database_password**, **database_name**
 - **jwt_secret**: khóa bí mật để kí và xác thực các token jwt
 - ***Lưu ý khi triển khai dùng file .env chứ không phải .template.env***
 
@@ -15,7 +16,9 @@
 
 ### Basic Url
 - /login?redirect=...
-- /login/callback?redirect=...&token=...
+- /login/callback?token=...
+- /login/username-callback?...
+- /login/google-callback?...
 - /account-info
 
 <!-- ----------------------------------------------- -->
@@ -40,9 +43,7 @@
 
 ### Các Thư Viện Phụ Thuộc
 - Các thư viện được quản lí bởi **composer** - một công cụ quản lý phụ thuộc (dependency manager) cho PHP.
-- **firebase/php-jwt**: Giúp tạo và xác thực chữ ký cho người dùng khi xác thực trên hệ thống.
-- **google/apiclient**: Đăng nhập với google
-- **vlucas/phpdotenv**: Đọc file .env
+- **firebase/php-jwt**: Giúp tạo và xác thực token cho người dùng khi xác thực trên hệ thống.
 
 ### Thông Tin Hệ Thống
 - **Kernel**: `5.15.167.4-microsoft-standard-WSL2`
