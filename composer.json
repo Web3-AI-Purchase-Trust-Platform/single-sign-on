@@ -1,0 +1,19 @@
+{
+    "name": "mk/single-sign-on",
+    "autoload": {
+        "psr-4": {
+            "Mk\\SingleSignOn\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mk"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^6.10"
+    },
+    "scripts": {
+        "start": "php -S localhost:8000 -t src"
+    }
+}
