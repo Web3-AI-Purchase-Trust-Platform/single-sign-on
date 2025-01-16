@@ -1,11 +1,8 @@
 <?php
-    $redirect = $_GET['redirect'];
+    require '../../private/service/configLoader.php';
 
-    if(isset($redirect)) {
-        echo $redirect;
-    } else {
-        // header("Location: http://localhost:8000");
-    }
+    $google_oath2 = jsonLoader::getConfig('google-oath2');
+    $google_oath_callback = "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile&response_type=code&client_id=". $google_oath2['client-id'] ."&redirect_uri=". $google_oath2['call-back-url'] ."&state=xyz123";
 ?>
 
 <!DOCTYPE html>
@@ -79,10 +76,10 @@
             action="/login/auth.php"
         >
             <label for="exampleFormControlInput1" class="form-label"><b>Tài khoản</b></label>
-            <input required  name="username" type="text" class="form-control" placeholder="------">
+            <input autocomplete="off" required  name="username" type="text" class="form-control" placeholder="------">
 
             <label for="inputPassword5" class="form-label" style="margin-top: 20px;"><b>Mật Khẩu</b></label>
-            <input required  name="password" type="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="**********">
+            <input autocomplete="off" required  name="password" type="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="**********">
         
             <div class="form-check" style="margin-top: 10px;">
                 <input class="form-check-input" type="checkbox" value="1" id="rememberMe" name="rememberMe">
@@ -110,13 +107,13 @@
                     gap: 30px;
                 "
             >
-                <img style="cursor: pointer;" src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" width="40" height="40" alt="">
+                <a href="<?php echo $google_oath_callback; ?>">
+                    <img id="google-login" style="cursor: pointer;" src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" width="40" height="40" alt="">
+                </a>
                 <img style="cursor: pointer;" src="https://cdn-icons-png.flaticon.com/128/145/145802.png" width="40" height="40" alt="">
             </div>
         </div>
-    </div>
-
-    
+    </div>    
 </body>
 </html>
 

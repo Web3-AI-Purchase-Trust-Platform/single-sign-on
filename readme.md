@@ -4,11 +4,14 @@
 - php version: 8.2.26
 - composer version: 2.5.5
 
-### Cấu Hình
-- Các thông số trong .template.env
+### Cấu Hình (Trong File **resources**)
+#### Các thông số trong .template.env
 - **client_id**: client_id trong google oath2
 - **database_host và database_port**: host và port của hệ quản trị cơ sở dữ liệu
 - **jwt_secret**: khóa bí mật để kí và xác thực các token jwt
+- ***Lưu ý khi triển khai dùng file .env chứ không phải .template.env***
+
+#### Các thông số trong config.json
 
 ### Basic Url
 - /login?redirect=...
@@ -19,7 +22,9 @@
 # Triển Khai Ứng Dụng
 ### Môi Trường Thử Nghiệm
 
-### Môi Trường Thực Tế
+### Kiểm Thử
+
+### Sản Phẩm
 
 <!-- ----------------------------------------------- -->
 # Thông Tin Khác
@@ -34,8 +39,10 @@
 - Quản lí mã nguồn:
 
 ### Các Thư Viện Phụ Thuộc
-- Các thư viện được quản lí bởi composer - một công cụ quản lý phụ thuộc (dependency manager) cho PHP.
-- **firebase/php-jwt**: Giúp tạo và xác thực chữ ký cho user
+- Các thư viện được quản lí bởi **composer** - một công cụ quản lý phụ thuộc (dependency manager) cho PHP.
+- **firebase/php-jwt**: Giúp tạo và xác thực chữ ký cho người dùng khi xác thực trên hệ thống.
+- **google/apiclient**: Đăng nhập với google
+- **vlucas/phpdotenv**: Đọc file .env
 
 ### Thông Tin Hệ Thống
 - **Kernel**: `5.15.167.4-microsoft-standard-WSL2`
