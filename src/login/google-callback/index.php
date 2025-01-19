@@ -43,18 +43,21 @@
                 $result = userData::existByEmail($r["email"]);
 
                 if($result) {
-                    print_r($result);
+                    require_once '../../../private/service/jwtSigner.php';
+                    $token = jwtSigner::createToken($r["email"]);
+
+                    header("Location: " . $state . "?token=" . $token);
                 } else {
-                    header("Location: /register?token=" . $token);
+                    header("Location: /register?token=" . $token . "&redirect=" . $state);
                     exit();
                 }
             } catch (Exception $e) {
-                header("Location: /login");
+                header("Location: /login?redirect=" . $state);
             }
         } else {
-            header("Location: /login");
+            header("Location: /login?redirect=" . $state);
         }
     } else {
-        header("Location: /login");
+        header("Location: /login?redirect=" . $state);
     }
 ?>

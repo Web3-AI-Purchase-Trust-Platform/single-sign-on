@@ -1,8 +1,15 @@
 <?php
     require '../../private/service/configLoader.php';
 
+    if (isset($_GET['redirect'])) {
+        $redirect = filter_var($_GET['redirect'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    }
+    else {
+        header("Location: /");
+    }
+
     $google_oath2 = jsonLoader::getConfig('google-oath2');
-    $google_oath_callback = "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code&client_id=". $google_oath2['client-id'] ."&redirect_uri=". $google_oath2['call-back-url'] ."&state=xyz123";
+    $google_oath_callback = "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code&client_id=". $google_oath2['client-id'] ."&redirect_uri=". $google_oath2['call-back-url'] ."&state=" . $redirect;
 ?>
 
 <!DOCTYPE html>

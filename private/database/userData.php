@@ -83,6 +83,28 @@ class userData {
             throw new Exception("Error: " . self::$conn->error);
         }
     }
+
+    public static function addNewAccount($email, $username, $password, $picture, $name) {
+        $sql = "
+            INSERT INTO user_data (email, username, password, picture, name) 
+            VALUES (?, ?, ?, ?, ?)
+        ";
+
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            // Liên kết các tham số với câu lệnh SQL
+            $stmt->bind_param("sssss", $email, $username, $password, $picture, $name);
+        
+            // Thực thi câu lệnh
+            if (!$stmt->execute()) {
+                throw new Exception("Error: " . $stmt->error);
+            }
+        
+            $stmt->close();
+        } else {
+            throw new Exception("Error: " . self::$conn->error);
+        }
+    }
 }
 
 try {
