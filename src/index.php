@@ -1,16 +1,10 @@
 <?php
-    // $redirect = $_GET['redirect'];
-?>
+    require_once '../private/database/userData.php';
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>HI</h1>
-    <!-- <p> <?php echo $redirect ?> </p> -->
-</body>
-</html>
+    $result = userData::existByEmail("usefr1@example.com");
+
+    if($result) {
+        print_r($result);
+    } else {
+        echo "false";
+    }

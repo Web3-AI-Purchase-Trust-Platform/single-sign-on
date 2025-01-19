@@ -81,11 +81,15 @@
             <label for="inputPassword5" class="form-label" style="margin-top: 20px;"><b>Mật Khẩu</b></label>
             <input autocomplete="off" required  name="password" type="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="**********">
         
-            <div class="form-check" style="margin-top: 10px;">
-                <input class="form-check-input" type="checkbox" value="1" id="rememberMe" name="rememberMe">
-                <label class="form-check-label" for="rememberMe">
-                    Ghi nhớ tài khoản
-                </label>
+            <div class="form-check" style="margin-top: 10px; display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                <div>
+                    <input class="form-check-input" type="checkbox" value="1" id="rememberMe" name="rememberMe">
+                    <label class="form-check-label" for="rememberMe">
+                        Ghi nhớ tài khoản
+                    </label>
+                </div>
+
+                <a href="<?php echo $google_oath_callback; ?>" style="font-size: 0.8rem">Đăng Kí Tài Khoản</a>
             </div>
 
             <button type="submit" class="btn btn-primary w-100 mt-3" id="login">Đăng nhập</button>

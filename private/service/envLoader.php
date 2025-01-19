@@ -17,7 +17,7 @@ class envLoader {
 }
 
 try {
-    envLoader::loadEnv(__DIR__ . '/.env');
+    envLoader::loadEnv(__DIR__ . '/../../config/.env');
 } catch (Exception $e) {
     echo __DIR__;
     echo "Lỗi: " . $e->getMessage();

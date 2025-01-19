@@ -2,8 +2,13 @@
     "name": "mk/single-sign-on",
     "autoload": {
         "psr-4": {
-            "Mk\\SingleSignOn\\": "src/"
-        }
+            "Mk\\SingleSignOn\\": "src/",
+            "database\\": "private/database",
+            "service\\": "private/service"
+        },
+        "files": [
+            "config/pathConfig.php"
+        ]
     },
     "authors": [
         {
@@ -15,7 +20,8 @@
         "vlucas/phpdotenv": "^5.6"
     },
     "scripts": {
-        "start": "php -S localhost:8000 -t src"
+        "start": "php -S localhost:8000 -t src",
+        "autoload": "composer dump-autoload"
     },
     "config": {
         "process-timeout": 600
