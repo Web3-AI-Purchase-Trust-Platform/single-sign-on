@@ -21,7 +21,7 @@
         "phpmailer/phpmailer": "^6.9"
     },
     "scripts": {
-        "start": "php -S localhost:8000 -t src",
+        "start": "php -S 0.0.0.0:8000 -t src",
         "autoload": "composer dump-autoload"
     },
     "config": {
