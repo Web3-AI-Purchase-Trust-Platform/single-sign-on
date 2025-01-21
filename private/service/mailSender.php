@@ -93,7 +93,6 @@ function sendMail($to, $id, $code) {
                 </head>
                 <body>
                     <p class="lead">Phát hiện truy cập từ thiết bị mới.</p>
-                    <p><strong>from ip:</strong> ' . htmlspecialchars($ip) . ' </p>
 
                     <a href="' . $url . '" class="btn">Nhấn vào đây để xác minh</a>
                 </body>
