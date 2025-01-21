@@ -49,7 +49,6 @@
                     header("Location: " . $state . "?token=" . $token);
                 } else {
                     header("Location: /register?token=" . $token . "&redirect=" . $state);
-                    exit();
                 }
             } catch (Exception $e) {
                 header("Location: /login?redirect=" . $state);
