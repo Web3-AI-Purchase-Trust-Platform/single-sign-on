@@ -44,10 +44,11 @@ jobs:
       - name: check directory
         run: |
           ls -a
+          ls config
 
       - name: Docker Build
         run: |
-          docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from=lmao1415/ltw:latest -t lmao1415/ltw .
+          docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from=lmao1415/ltw:latest -t lmao1415/sso .
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
