@@ -1,5 +1,8 @@
 {
-    "redirect_url": "nah->",
+    "redirect_url": [
+        "https://ltw.hcmutssps.id.vn/login"
+    ],
+
     "test_environtment": "true",
     
     "google-oath2": {

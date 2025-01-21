@@ -61,7 +61,7 @@ try {
         responseJsonData("Không tìm thấy tài khoản", 404);
 
     if (password_verify($password, $originUser['password'])) {
-        $hash_respond = userData::findByHash();
+        $hash_respond = userData::findByHashAndUsername($username);
 
         if(!$hash_respond) {
             $otp = userData::addNewUserAgentWithOtp($username);

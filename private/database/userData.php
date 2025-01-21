@@ -165,7 +165,7 @@ class userData {
         }
     }
 
-    public static function findByHash() {
+    public static function findByUsername($username) {
         $user_agent = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $hmac_key = envLoader::getEnv('hmac_key');
@@ -173,11 +173,31 @@ class userData {
 
         $sql = "
             SELECT * FROM `user_agent` 
-            WHERE hash_key = ?
+            WHERE username = ?
         ";
 
         if ($stmt = self::$conn->prepare($sql)) {
-            $stmt->bind_param("s", $hash);  
+            $stmt->bind_param("s", $username);  
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return null;
+        }
+    }
+
+    public static function findByHashAndUserName($username) {
+        $user_agent = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $hmac_key = envLoader::getEnv('hmac_key');
+        $hash = hash_hmac('sha256', $user_agent, $hmac_key);
+
+        $sql = "
+            SELECT * FROM `user_agent` 
+            WHERE hash_key = ? and username = ?
+        ";
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            $stmt->bind_param("ss", $hash, $username);  
             $stmt->execute();
             return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         } else {

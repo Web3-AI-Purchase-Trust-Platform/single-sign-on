@@ -3,6 +3,13 @@
 
     if (isset($_GET['redirect'])) {
         $redirect = filter_var($_GET['redirect'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        require_once '../../private/service/configLoader.php';
+
+        $redirect_arr = jsonLoader::getConfig('redirect_url');
+
+        // if(!in_array($redirect, $redirect_arr))
+        //         header("Location: /");
     }
     else {
         header("Location: /");
@@ -230,7 +237,7 @@
                 await wait(1000)
                 document.getElementById('cd').innerHTML = 0;
 
-                // window.location.replace(`${document.body.getAttribute('redirect')}?token=${res['message']}`);
+                window.location.replace(`${document.body.getAttribute('redirect')}?token=${res['message']}`);
             } catch (e) {
                 document.getElementById('modalBody').textContent = e.message
             } finally {

@@ -7,6 +7,13 @@
 
         try {
             $r = json_decode(request::send('GET', [], 'https://www.googleapis.com/oauth2/v3/userinfo', $token), true);
+
+            require_once '../../private/service/configLoader.php';
+
+            $redirect_arr = jsonLoader::getConfig('redirect_url');
+
+            // if(!in_array($redirect, $redirect_arr))
+            //     header("Location: /");
         } catch(Exception $e) {
             header("Location: /login?redirect=" . $redirect);
         }
