@@ -50,29 +50,38 @@ function responseJsonData($message, $code = 200) {
 $requestBody = json_decode(file_get_contents('php://input'), true);
 
 try {
-    if (strlen($requestBody['password']) < 8 || strlen($requestBody['password']) > 15) {
-        throw new Exception("Mật khẩu phải có độ dài từ 8 đến 15 ký tự!");
-    }
-    
-    if (strlen($requestBody['username']) < 4 || strlen($requestBody['username']) > 10) {
-        throw new Exception("Tên tài khoản có độ dài 4 - 10 ký tự.");
-    }    
+    $username = filter_var($requestBody['username'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $password = filter_var($requestBody['password'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     require_once '../../private/database/userData.php';
-    require_once  '../../private/service/request.php';
-    $r = json_decode(request::send('GET', [], 'https://www.googleapis.com/oauth2/v3/userinfo', $requestBody['token']), true);
 
-    if($r['email'] != $requestBody['email']) {
-        throw new Exception("Xác thực email thất bại.");
+    $originUser = userData::getDataFromUsername($username);
+
+    if(!$originUser)
+        responseJsonData("Không tìm thấy tài khoản", 404);
+
+    if (password_verify($password, $originUser['password'])) {
+        $hash_respond = userData::findByHash();
+
+        if(!$hash_respond) {
+            $otp = userData::addNewUserAgentWithOtp($username);
+            require_once '../../private/service/mailSender.php';
+            
+            sendMail($originUser['email'], $otp['id'], $otp['otp']);
+            responseJsonData("Phát hiện đăng nhập trên thiết bị mới, vui lòng kiểm tra email", 400);
+        }
+
+        if($hash_respond[0]['otp']) {
+            responseJsonData("Kiểm tra email để xác minh thiết bị đi :v", 400);
+        }
+
+        require_once '../../private/service/jwtSigner.php';
+
+        responseJsonData(jwtSigner::createToken($originUser['email']));
+    } else {
+        responseJsonData("Mật khẩu sai", 401);
     }
 
-    $requestBody['password'] = password_hash($requestBody['password'], PASSWORD_DEFAULT); 
-
-    userData::addNewAccount($requestBody['email'], $requestBody['username'], $requestBody['password'], $requestBody['picture'], $requestBody['name']);
-
-    // responseJsonData($requestBody);
-    require_once  '../../private/service/jwtSigner.php';
-    responseJsonData(jwtSigner::createToken($requestBody['email']));
 } catch (Exception $e) {
     responseJsonData($e->getMessage(), 500);
 }

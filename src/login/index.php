@@ -33,6 +33,7 @@
     </style>
 </head>
 <body 
+    redirect = "<?php echo $redirect ?>"
     style="
         height: 100dvh;
         display: flex;
@@ -43,7 +44,27 @@
         background-size: cover; 
         background-position: center; 
         background-repeat: no-repeat; 
-    ">
+">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="centeredModalLabel">
+                        <img src="https://cdn-icons-png.flaticon.com/128/9195/9195785.png" width="35" height="35" alt="">
+                        Thông Báo
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!--  -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div
         style = "
@@ -80,17 +101,17 @@
                 min-width: 300px;
             "
             method="post"
-            action="/login/username-callback"
+            id="loginForm"
         >
             <label for="exampleFormControlInput1" class="form-label"><b>Tài khoản</b></label>
-            <input autocomplete="off" required  name="username" type="text" class="form-control" placeholder="------">
+            <input id="username" autocomplete="off" required  name="username" type="text" class="form-control" placeholder="------">
 
             <label for="inputPassword5" class="form-label" style="margin-top: 20px;"><b>Mật Khẩu</b></label>
-            <input autocomplete="off" required  name="password" type="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="**********">
+            <input id="password" autocomplete="off" required  name="password" type="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="**********">
         
             <div class="form-check" style="margin-top: 10px; display: flex; justify-content: space-between; width: 100%; align-items: center;">
                 <div>
-                    <input class="form-check-input" type="checkbox" value="1" id="rememberMe" name="rememberMe">
+                    <input id="remember" class="form-check-input" type="checkbox" value="1" id="rememberMe" name="rememberMe">
                     <label class="form-check-label" for="rememberMe">
                         Ghi nhớ tài khoản
                     </label>
@@ -99,7 +120,7 @@
                 <a href="<?php echo $google_oath_callback; ?>" style="font-size: 0.8rem">Đăng Kí Tài Khoản</a>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 mt-3" id="login">Đăng nhập</button>
+            <button id="submit-button" type="submit" class="btn btn-primary w-100 mt-3" id="login">Đăng nhập</button>
         </Form>
 
         <hr style="margin-top: 25px;">
@@ -107,7 +128,9 @@
         <!-- Đăng nhập bên thứ ba -->
         <div style="
             text-align: center;
-        ">
+        "
+        id="third"
+        >
             <p style="color: #777; font-size: 14px; transform: translateY(-60%);">hoặc đăng nhập với</p>
 
             <div
@@ -125,6 +148,100 @@
             </div>
         </div>
     </div>    
+
+    <script>
+        function wait(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function disable_function(dis) {
+            document.getElementById('username').disabled=dis;
+            document.getElementById('password').disabled=dis;
+            document.getElementById('submit-button').disabled=dis;
+            document.getElementById('remember').disabled=dis;
+
+            if(dis === true) {
+                document.getElementById('submit-button').innerHTML = `
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                `;
+            } else {
+                document.getElementById('submit-button').innerHTML = `
+                    Đăng Nhập
+                `
+            }
+        }
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const res = await fetch(`/api/login.php`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify({
+                    username: username, 
+                    password: password, 
+                })
+            })
+            .then(response => {   
+                return response.json();
+            })
+
+            if(res.code != 200)
+                throw new Error(res.message)
+            
+            return res
+        }
+
+        const button = document.getElementById('submit-button')
+
+        button.addEventListener('click', async function (e) {
+            e.preventDefault()
+
+            disable_function(true)
+
+            try {
+                const res = await login()
+
+                document.getElementById('loginForm').innerHTML = `
+                    <div style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-top: 65px;
+                        flex-direction: column;
+                    ">
+                        <img src="https://cdn-icons-png.flaticon.com/128/190/190411.png" width="60px" height="60px" alt="">
+                        <h4 style="margin-top: 25px">Đăng Nhập Tài Khoản Thành Công</h3>
+                        <p style="color: #BFBBA9">tự động điều hướng sau <span id="cd">3</span> giây</p>
+                    </div>
+                `;
+
+                document.getElementById('third').innerHTML = ``
+
+                await wait(1000)
+                document.getElementById('cd').innerHTML = 2;
+                await wait(1000)
+                document.getElementById('cd').innerHTML = 1;
+                await wait(1000)
+                document.getElementById('cd').innerHTML = 0;
+
+                // window.location.replace(`${document.body.getAttribute('redirect')}?token=${res['message']}`);
+            } catch (e) {
+                document.getElementById('modalBody').textContent = e.message
+            } finally {
+                disable_function(false)
+            }
+
+            // Hiển thị modal
+            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            myModal.show();
+        })
+    </script>
 </body>
 </html>
 

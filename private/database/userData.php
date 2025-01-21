@@ -105,6 +105,115 @@ class userData {
             throw new Exception("Error: " . self::$conn->error);
         }
     }
+
+    public static function getDataFromUsername($username) {
+        $sql = "
+            SELECT * FROM `user_data` 
+            WHERE username = ?
+        ";
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            $stmt->bind_param("s", $username);
+            
+            $stmt->execute();
+            
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                return $result->fetch_assoc(); 
+            } else {
+                return null; 
+            }
+        } else {
+            return null; 
+        }
+    }
+
+    public static function addNewUserAgentWithOtp($username) {
+        $user_agent = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $hmac_key = envLoader::getEnv('hmac_key');
+        $hash = hash_hmac('sha256', $user_agent, $hmac_key);
+
+        $otp = '';
+        for ($i = 0; $i < 25; $i++) {
+            $otp .= random_int(1, 9);
+        }
+
+        $sql = "
+            INSERT INTO user_agent (username, hash_key, otp)
+            VALUES (?, ?, ?)
+        ";
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            // Liên kết các tham số với câu lệnh SQL
+            $stmt->bind_param("ssi", $username, $hash, $otp);
+        
+            // Thực thi câu lệnh
+            if (!$stmt->execute()) {
+                throw new Exception("Error: " . $stmt->error);
+            }
+        
+            // Lấy ID của dòng vừa chèn
+            $last_insert_id = self::$conn->insert_id;
+
+            $stmt->close();
+
+            return ["id" => $last_insert_id, "otp" => $otp];
+        } else {
+            throw new Exception("Error: " . self::$conn->error);
+        }
+    }
+
+    public static function findByHash() {
+        $user_agent = filter_var($_SERVER['HTTP_USER_AGENT'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $hmac_key = envLoader::getEnv('hmac_key');
+        $hash = hash_hmac('sha256', $user_agent, $hmac_key);
+
+        $sql = "
+            SELECT * FROM `user_agent` 
+            WHERE hash_key = ?
+        ";
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            $stmt->bind_param("s", $hash);  
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return null;
+        }
+    }
+
+    public static function getAgentById($id) {
+        $sql = "
+            SELECT * FROM `user_agent` 
+            WHERE id = ?
+        ";
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            $stmt->bind_param("s", $id);  
+            $stmt->execute();
+            return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return null;
+        }
+    }
+
+    public static function verifyOtp($id) {
+        $sql = "
+            UPDATE user_agent
+            SET otp = 0
+            WHERE id = ?
+        ";
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            $stmt->bind_param("s", $id);  
+            $stmt->execute();
+        } else {
+            return null;
+        }
+    }
 }
 
 try {

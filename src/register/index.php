@@ -87,7 +87,7 @@
             position: relative;
         "
     >   
-        <a href="/login">
+        <a href="/login?redirect=<?php echo $redirect ?>">
             <img style="
                 position: absolute;
                 top: 15px;
