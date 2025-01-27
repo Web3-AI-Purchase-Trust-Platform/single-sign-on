@@ -24,28 +24,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-docker-
 
-      - name: create .env
-        run: |
-          touch config/.env
-          echo 'client_secret=${{ secrets.CLIENT_SECRET }}' >> config/.env
-          echo 'database_host=${{ secrets.DATABASE_HOST }}' >> config/.env 
-          echo 'database_name=${{ secrets.DATABASE_NAME }}' >> config/.env 
-          echo 'database_password=${{ secrets.DATABASE_PASSWORD }}' >> config/.env 
-          echo 'database_port=${{ secrets.DATABASE_PORT }}' >> config/.env 
-          echo 'database_user=${{ secrets.DATABASE_USER }}' >> config/.env 
-          echo 'hmac_key=${{ secrets.HMAC_KEY }}' >> config/.env 
-          echo 'jwt_secret=${{ secrets.JWT_SECRET }}' >> config/.env 
-          echo 'smtp_host=${{ secrets.SMTP_HOST }}' >> config/.env 
-          echo 'smtp_password=${{ secrets.SMTP_PASSWORD }}' >> config/.env 
-          echo 'smtp_port=${{ secrets.SMTP_PORT }}' >> config/.env 
-          echo 'smtp_secure=${{ secrets.SMTP_SECURE }}' >> config/.env 
-          echo 'smtp_username=${{ secrets.SMTP_USERNAME }}' >> config/.env 
-
-      - name: check directory
-        run: |
-          ls -a
-          ls config
-
       - name: Docker Build
         run: |
           docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from=lmao1415/sso:latest -t lmao1415/sso .
