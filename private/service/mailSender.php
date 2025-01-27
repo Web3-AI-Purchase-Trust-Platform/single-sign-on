@@ -106,3 +106,31 @@ function sendMail($to, $id, $code) {
         throw $e;
     }
 }
+
+function checkSmtpConnection() {
+    require  __DIR__ . '/../../vendor/autoload.php';
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->CharSet = 'UTF-8';
+
+        // Cấu hình SMTP
+        $mail->isSMTP();
+        $mail->Host = envLoader::getEnv('smtp_host'); 
+        $mail->SMTPAuth = true;
+        $mail->Username = envLoader::getEnv('smtp_username'); 
+        $mail->Password = envLoader::getEnv('smtp_password'); 
+        $mail->SMTPSecure = envLoader::getEnv('smtp_secure'); 
+        $mail->Port = envLoader::getEnv('smtp_port'); 
+
+        $mail->Timeout = 1;
+
+        // Kiểm tra kết nối đến SMTP
+        $mail->smtpConnect();
+
+        return true;
+    } catch (Exception $e) {
+        return "0";
+    }
+}

@@ -184,6 +184,10 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
+            if(username.length === 0 || password.length === 0) {
+                throw new Error("Nhập thiếu thông tin")
+            }
+
             const res = await fetch(`/api/login.php`, {
                 method: 'POST', 
                 headers: {
