@@ -14,7 +14,7 @@ class userData {
 
         try {
             self::$conn = new mysqli();
-            self::$conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, 10);
+            self::$conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
             self::$conn->real_connect($host, $user, $paswd, $name, $port);
 
             if (!self::$conn->set_charset("utf8mb4")) {
@@ -236,8 +236,12 @@ class userData {
     }
 }
 
+$db;
+
 try {
     userData::connect();
-} catch (Exception $e) {
 
+    $db = true;
+} catch (Exception $e) {
+    $db = "0";
 }

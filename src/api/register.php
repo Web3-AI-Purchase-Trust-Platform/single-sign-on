@@ -49,14 +49,12 @@ function responseJsonData($message, $code = 200) {
 
 $requestBody = json_decode(file_get_contents('php://input'), true);
 
+$password = filter_var($requestBody['password'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
 try {
-    if (strlen($requestBody['password']) < 8 || strlen($requestBody['password']) > 15) {
-        throw new Exception("Mật khẩu phải có độ dài từ 8 đến 15 ký tự!");
+    if(strlen($password) < 4 || strlen($password) > 15) {
+        throw new Exception("Mật khẩu từ 4 tới 15 ký tự.");
     }
-    
-    if (strlen($requestBody['username']) < 4 || strlen($requestBody['username']) > 10) {
-        throw new Exception("Tên tài khoản có độ dài 4 - 10 ký tự.");
-    }    
 
     require_once '../../private/database/userData.php';
     require_once  '../../private/service/request.php';
@@ -66,9 +64,9 @@ try {
         throw new Exception("Xác thực email thất bại.");
     }
 
-    $requestBody['password'] = password_hash($requestBody['password'], PASSWORD_DEFAULT); 
+    $password = password_hash($requestBody['password'], PASSWORD_DEFAULT); 
 
-    userData::addNewAccount($requestBody['email'], $requestBody['username'], $requestBody['password'], $requestBody['picture'], $requestBody['name']);
+    userData::addNewAccount($requestBody['email'], $requestBody['username'], $password, $requestBody['picture'], $requestBody['name']);
 
     // responseJsonData($requestBody);
     require_once  '../../private/service/jwtSigner.php';

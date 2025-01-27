@@ -2,8 +2,6 @@
     "redirect_url": [
         "https://ltw.hcmutssps.id.vn/login"
     ],
-
-    "test_environtment": "true",
     
     "google-oath2": {
         "call-back-url": "http://localhost:8000/login/google-callback",
