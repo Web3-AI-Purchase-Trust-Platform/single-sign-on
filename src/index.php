@@ -10,6 +10,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Đổi favicon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/1791/1791961.png" type="image/png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Service Status</title>
@@ -25,12 +28,22 @@
             margin-top: 20px;
             width: 80%;
             max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body
     smtp = <?php echo $smtp ?>
     db   = <?php echo $db ?>
+
+    style="
+        background-color: #eeeee4;
+        background-image: url('https://img.freepik.com/free-photo/christmas-snowy-landscape_1048-3491.jpg?semt=ais_hybrid');
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+    "
 >
     <h2 style="margin-top: 35px">Single-Sign-On Trạng Thái Dịch Vụ</h2>
 
@@ -62,10 +75,10 @@
         <div class="card-body" id="db-status">
             <?php 
                 if ($redirect && is_array($redirect)) {
-                    // In các URL ra
                     echo "<ul>";
                     foreach ($redirect as $url) {
-                        echo "<li><a href='$url'>$url</a></li>";
+                        $encoded_url = urlencode($url);
+                        echo "<li><a href='/login?redirect=$encoded_url'>$url</a></li>";
                     }
                     echo "</ul>";
                 } else {

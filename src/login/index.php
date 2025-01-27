@@ -8,8 +8,8 @@
 
         $redirect_arr = jsonLoader::getConfig('redirect_url');
 
-        // if(!in_array($redirect, $redirect_arr))
-        //         header("Location: /");
+        if(!in_array($redirect, $redirect_arr))
+            header("Location: /");
     }
     else {
         header("Location: /");
