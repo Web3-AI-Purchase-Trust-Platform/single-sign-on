@@ -1,6 +1,7 @@
 {
     "redirect_url": [
-        "https://example.com"
+        "https://example.com",
+        "http://localhost:8001/login"
     ],
     
     "google-oath2": {

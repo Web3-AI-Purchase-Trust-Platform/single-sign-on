@@ -5,10 +5,7 @@
             "Mk\\SingleSignOn\\": "src/",
             "database\\": "private/database",
             "service\\": "private/service"
-        },
-        "files": [
-            "config/pathConfig.php"
-        ]
+        }
     },
     "authors": [
         {

@@ -5,5 +5,5 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/single-sign-on
 COPY . .
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
-EXPOSE 80
-CMD ["php", "-S", "0.0.0.0:80", "-t", "src"]
+EXPOSE 8001
+CMD ["php", "-S", "0.0.0.0:8001", "-t", "src"]

@@ -70,7 +70,7 @@
     <!-- Database Status -->
     <div class="card status-card">
         <div class="card-header">
-            Các ứng dụng đang dùng dịch vụ này
+            Các ứng dụng liên kết với dịch vụ
         </div>
         <div class="card-body" id="db-status">
             <?php 
