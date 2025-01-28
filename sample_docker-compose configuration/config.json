@@ -1,12 +1,12 @@
 {
     "redirect_url": [
-        "https://example.com",
-        "http://localhost:8001/login"
+        "-",
+        "-"
     ],
     
     "google-oath2": {
-        "call-back-url": "http://localhost:8000/login/google-callback",
-        "client-id": "316275848999-vef63b5gcifv6b9erso5ivucnq21ufkv.apps.googleusercontent.com",
-        "grant_type": "authorization_code"
+        "call-back-url": "-",
+        "client-id": "-",
+        "grant_type": "-"
     }
 }
