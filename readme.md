@@ -4,7 +4,7 @@
 - php version: 8.2.26
 - composer version: 2.5.5
 
-### Cấu Hình (Trong folder **private/service**)
+### Cấu Hình (Trong folder **config/...**)
 #### Các thông số trong .template.env
 - **client_secret**: client_secret trong google oath2
 - **database_host và database_port**: host và port của hệ quản trị cơ sở dữ liệu
