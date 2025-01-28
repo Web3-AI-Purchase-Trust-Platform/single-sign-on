@@ -1,4 +1,5 @@
 /vendor/
+test
 
 .env
 test.css

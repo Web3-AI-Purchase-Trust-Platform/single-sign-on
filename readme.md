@@ -10,6 +10,7 @@
 - **database_host và database_port**: host và port của hệ quản trị cơ sở dữ liệu
 - Tương tự với **database_user**, **database_password**, **database_name**
 - **jwt_secret**: khóa bí mật để kí và xác thực các token jwt
+- Cấu hình **smtp server** và **hmac key**
 - ***Lưu ý khi triển khai dùng file .env chứ không phải .template.env***
 
 #### Các thông số trong config.json
@@ -29,6 +30,13 @@
 
 ### Sản Phẩm
 
+##### [Cấu hình docker-compose](/sample_docker-compose%20configuration/readme.md):
+##### Chạy source:
+- git clone dự án về
+- cài đặt php và composer đúng với phiên bản
+- tạo file .env và config.json trong thư mục config và cấu hình như hướng dẫn
+- composer install & composer start
+
 <!-- ----------------------------------------------- -->
 # Thông Tin Khác
 
@@ -40,7 +48,7 @@
 ### Mã Nguồn
 #### Cấu trúc:
 - **database_template:** Chứ các template SQL (không dữ liệu)
-- **private:** Chứ các module php bên ngoài nội dung render ra web.
+- **private:** Chứa các module php bên ngoài nội dung render ra web.
     - **database:** Kết nối với cơ sở dữ liệu.
     - **service:** Các dịch vụ (Đọc file .env, file config, ký jwt, call api bên thứ 3,... ).
 
