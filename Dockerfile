@@ -6,4 +6,4 @@ WORKDIR /var/www/single-sign-on
 COPY . .
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
 EXPOSE 8001
-CMD ["php", "-S", "0.0.0.0:8001", "-t", "src"]
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "src"]

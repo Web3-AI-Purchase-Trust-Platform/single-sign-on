@@ -3,7 +3,7 @@ services:
     image: lmao1415/sso
     container_name: single-sign-on
     ports:
-      - "8001:8001"
+      - "8000:8000"
     volumes:
       - ./config.json:/var/www/single-sign-on/config/config.json
       - ./.env:/var/www/single-sign-on/config/.env
