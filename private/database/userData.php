@@ -234,6 +234,25 @@ class userData {
             return null;
         }
     }
+
+    public static function changePasswordByEmail($email, $hash_passwd) {
+        $sql = "
+            UPDATE user_data
+            SET password = ?
+            WHERE email = ?
+        ";
+
+        if ($stmt = self::$conn->prepare($sql)) {
+            $stmt->bind_param("ss", $hash_passwd, $email);  
+            if (!$stmt->execute()) {
+                throw new Exception("Error: " . $stmt->error);
+            }
+        
+            $stmt->close();
+        } else {
+            throw new Exception("Error: " . self::$conn->error);
+        }
+    }
 }
 
 $db;

@@ -17,6 +17,8 @@
 
     $google_oath2 = jsonLoader::getConfig('google-oath2');
     $google_oath_callback = "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code&client_id=". $google_oath2['client-id'] ."&redirect_uri=". $google_oath2['call-back-url'] ."&state=" . $redirect;
+
+    $forgot_bro = "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code&client_id=". $google_oath2['client-id'] ."&redirect_uri=". $google_oath2['call-back-url'] ."&state=" . "forgot";
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +43,8 @@
 </head>
 <body 
     redirect = "<?php echo $redirect ?>"
+
+    forgot = "<?php echo $forgot_bro ?>"
     style="
         height: 100dvh;
         display: flex;
@@ -117,11 +121,11 @@
             <input id="password" autocomplete="off" required  name="password" type="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="**********">
         
             <div class="form-check" style="margin-top: 10px; display: flex; justify-content: space-between; width: 100%; align-items: center;">
-                <div>
-                    <input id="remember" class="form-check-input" type="checkbox" value="1" id="rememberMe" name="rememberMe">
-                    <label class="form-check-label" for="rememberMe">
-                        Ghi nhớ tài khoản
-                    </label>
+                <div style="margin-right: 15px">
+                    <img src="https://cdn-icons-png.flaticon.com/128/10448/10448239.png" width="20" height="20" alt="">
+                    <a href = "<?php echo $forgot_bro ?>" style="color: #777; font-size: 14px; transform: translateY(-60%); cursor: pointer">
+                        quên mật khẩu
+                    </a>
                 </div>
 
                 <a href="<?php echo $google_oath_callback; ?>" style="font-size: 0.8rem">Đăng Kí Tài Khoản</a>
@@ -165,7 +169,6 @@
             document.getElementById('username').disabled=dis;
             document.getElementById('password').disabled=dis;
             document.getElementById('submit-button').disabled=dis;
-            document.getElementById('remember').disabled=dis;
 
             if(dis === true) {
                 document.getElementById('submit-button').innerHTML = `
