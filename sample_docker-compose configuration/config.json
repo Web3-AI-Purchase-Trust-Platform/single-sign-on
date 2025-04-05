@@ -2,8 +2,7 @@
     "redirect_url": [
         "http://localhost:8000/receive",
         "http://localhost:3000/receive",
-        "http://localhost:8080/receive",
-        "https://example.com/"
+        "http://localhost:8080/receive"
     ],
     
     "google-oath2": {
